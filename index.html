@@ -1175,7 +1175,7 @@
         ];
         
         // إعدادات شريط الأخبار
-        let tickerSpeed = 5; // السرعة الافتراضية بالثواني (أبطأ)
+        let tickerSpeed = 200; // السرعة الافتراضية بالثواني (أبطأ)
         let isTickerPaused = false;
         let tickerAnimation;
         
@@ -1224,7 +1224,7 @@
         // تخفيف سرعة الشريط
         function slowDownTicker() {
             if (tickerSpeed < 60) { // حد أقصى للبطء
-                tickerSpeed += 5;
+                tickerSpeed += 30;
                 applyTickerSpeed();
                 showSpeedNotification("تم تخفيف سرعة الشريط");
             }
@@ -1233,7 +1233,7 @@
         // زيادة سرعة الشريط
         function speedUpTicker() {
             if (tickerSpeed > 60) { // حد أدنى للسرعة
-                tickerSpeed -= 5;
+                tickerSpeed -= 30;
                 applyTickerSpeed();
                 showSpeedNotification("تم زيادة سرعة الشريط");
             }
@@ -1241,7 +1241,7 @@
         
         // إعادة تعيين سرعة الشريط
         function resetTickerSpeed() {
-            tickerSpeed = 300;
+            tickerSpeed = 200;
             applyTickerSpeed();
             showSpeedNotification("تم إعادة السرعة الافتراضية للشريط");
         }
