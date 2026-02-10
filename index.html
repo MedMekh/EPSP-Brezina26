@@ -1175,7 +1175,7 @@
         ];
         
         // إعدادات شريط الأخبار
-        let tickerSpeed = 30; // السرعة الافتراضية بالثواني (أبطأ)
+        let tickerSpeed = 5; // السرعة الافتراضية بالثواني (أبطأ)
         let isTickerPaused = false;
         let tickerAnimation;
         
@@ -1223,8 +1223,8 @@
         
         // تخفيف سرعة الشريط
         function slowDownTicker() {
-            if (tickerSpeed < 60) { // حد أقصى للبطء
-                tickerSpeed += 60;
+            if (tickerSpeed < 10) { // حد أقصى للبطء
+                tickerSpeed += 5;
                 applyTickerSpeed();
                 showSpeedNotification("تم تخفيف سرعة الشريط");
             }
