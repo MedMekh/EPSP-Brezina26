@@ -199,38 +199,7 @@
         }
         @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.9; } }
 
-        /* ===== شريط الأخبار ===== */
-        .news-ticker-container, .breaking-ticker-container {
-            border-radius: var(--border-radius);
-            padding: 18px;
-            margin-top: 20px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .news-ticker-container { background: linear-gradient(145deg, #1e2a47, #0f1a2f); }
-        .breaking-ticker-container { background: linear-gradient(145deg, #b71c1c, #8e0000); border-right: 6px solid var(--accent-gold); }
-        .news-ticker-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255,235,59,0.5);
-            flex-wrap: wrap;
-        }
-        .ticker-title { display: flex; align-items: center; gap: 12px; font-size: 1.25rem; font-weight: 700; color: var(--accent-gold); }
-        .ticker-title i { animation: pulse 2s infinite; }
-        .ticker-date { color: #bbdefb; font-size: 0.9rem; font-weight: 500; }
-        .news-ticker, .breaking-ticker { direction: ltr; overflow: hidden; white-space: nowrap; width: 100%; }
-        marquee { color: white; font-size: 1.1rem; padding: 10px 0; width: 100%; font-weight: 500; }
-        .breaking-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-        .breaking-icon {
-            background: white; color: var(--accent-red); width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; box-shadow: var(--shadow-sm);
-        }
-        .breaking-title { font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-   /* ===== معرض الصور المتحرك (مُعاد تنسيقه) ===== */
+ /* ===== معرض الصور المتحرك (مُعاد تنسيقه) ===== */
         .gallery-ticker-container {
             background: #ffffff;
             border-radius: var(--border-radius);
@@ -291,6 +260,39 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
+        
+        /* ===== شريط الأخبار ===== */
+        .news-ticker-container, .breaking-ticker-container {
+            border-radius: var(--border-radius);
+            padding: 18px;
+            margin-top: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .news-ticker-container { background: linear-gradient(145deg, #1e2a47, #0f1a2f); }
+        .breaking-ticker-container { background: linear-gradient(145deg, #b71c1c, #8e0000); border-right: 6px solid var(--accent-gold); }
+        .news-ticker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,235,59,0.5);
+            flex-wrap: wrap;
+        }
+        .ticker-title { display: flex; align-items: center; gap: 12px; font-size: 1.25rem; font-weight: 700; color: var(--accent-gold); }
+        .ticker-title i { animation: pulse 2s infinite; }
+        .ticker-date { color: #bbdefb; font-size: 0.9rem; font-weight: 500; }
+        .news-ticker, .breaking-ticker { direction: ltr; overflow: hidden; white-space: nowrap; width: 100%; }
+        marquee { color: white; font-size: 1.1rem; padding: 10px 0; width: 100%; font-weight: 500; }
+        .breaking-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .breaking-icon {
+            background: white; color: var(--accent-red); width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; box-shadow: var(--shadow-sm);
+        }
+        .breaking-title { font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+  
 
         /* ===== الأقسام الرئيسية ===== */
         section {
@@ -1132,13 +1134,11 @@
                 'working-hours-desc': 'نعمل على مدار الساعة طوال أيام الأسبوع لخدمتكم',
                 'hours-badge-text': 'مفتوح 24/24 - 7/7',
                 'ticker-title': 'آخر الأخبار والمستجدات',
-                'ticker-hint': 'حرك المؤشر فوق الشريط لإيقافه مؤقتاً',
                 'breaking-title': 'عاجل',
                 'news-section-title': 'آخر الأخبار',
                 'services-title': 'الخدمات المقدمة',
                 'departments-title': 'المصالح',
                 'gallery-title': 'معرض الصور',
-                'gallery-hint': 'حرك المؤشر فوق الصور لإيقاف الحركة مؤقتاً',
                 'contact-title': 'معلومات الاتصال',
                 'contact-hours-title': 'ساعات عمل المؤسسة',
                 'contact-hours-desc': 'المؤسسة تعمل على مدار الساعة طوال أيام الأسبوع لخدمتكم',
