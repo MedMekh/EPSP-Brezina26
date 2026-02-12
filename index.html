@@ -199,7 +199,92 @@
         }
         @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.9; } }
 
- /* ===== معرض الصور المتحرك (مُعاد تنسيقه) ===== */
+        /* ===== شريط الأخبار ===== */
+        .news-ticker-container, .breaking-ticker-container {
+            border-radius: var(--border-radius);
+            padding: 18px;
+            margin-top: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .news-ticker-container { background: linear-gradient(145deg, #1e2a47, #0f1a2f); }
+        .breaking-ticker-container { background: linear-gradient(145deg, #b71c1c, #8e0000); border-right: 6px solid var(--accent-gold); }
+        .news-ticker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,235,59,0.5);
+            flex-wrap: wrap;
+        }
+        .ticker-title { display: flex; align-items: center; gap: 12px; font-size: 1.25rem; font-weight: 700; color: var(--accent-gold); }
+        .ticker-title i { animation: pulse 2s infinite; }
+        .ticker-date { color: #bbdefb; font-size: 0.9rem; font-weight: 500; }
+        .news-ticker, .breaking-ticker { direction: ltr; overflow: hidden; white-space: nowrap; width: 100%; }
+        marquee { color: white; font-size: 1.1rem; padding: 10px 0; width: 100%; font-weight: 500; }
+        .breaking-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .breaking-icon {
+            background: white; color: var(--accent-red); width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; box-shadow: var(--shadow-sm);
+        }
+        .breaking-title { font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        /* ===== الأقسام الرئيسية ===== */
+        section {
+            background: var(--gray-card);
+            margin: 30px 0;
+            padding: 35px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border-right: 6px solid var(--primary);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        html[dir="ltr"] section { border-right: none; border-left: 6px solid var(--primary); }
+        section:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+        section h2 {
+            color: var(--primary-dark);
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* ===== الخدمات والمصالح ===== */
+        .services, .departments, .news-container, .contact-info { display: grid; gap: 25px; margin-top: 15px; }
+        .service-card {
+            background: linear-gradient(145deg, #ffffff, #f5f9ff);
+            border-radius: var(--border-radius-sm);
+            padding: 25px;
+            transition: var(--transition);
+            border-right: 6px solid var(--primary-light);
+            box-shadow: var(--shadow-sm);
+        }
+        .service-card:hover { background: white; transform: translateY(-8px); box-shadow: var(--shadow-md); border-right-color: var(--accent-gold); }
+        .service-icon {
+            background: linear-gradient(145deg, var(--primary), var(--primary-light));
+            color: white; width: 70px; height: 70px; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+        }
+        .department-item {
+            background: #f8fafc; padding: 25px 15px; border-radius: var(--border-radius-sm);
+            text-align: center; transition: var(--transition); border-bottom: 4px solid var(--primary-light); box-shadow: var(--shadow-sm);
+        }
+        .department-item:hover { background: white; transform: translateY(-6px); border-bottom-color: var(--accent-gold); box-shadow: var(--shadow-md); }
+        .department-icon {
+            background: linear-gradient(145deg, var(--primary-dark), var(--primary));
+            color: white; width: 60px; height: 60px; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 18px;
+        }
+
+        /* ===== معرض الصور المتحرك ===== */
         .gallery-ticker-container {
             background: #ffffff;
             border-radius: var(--border-radius);
@@ -260,94 +345,7 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
-        
-        /* ===== شريط الأخبار ===== */
-        .news-ticker-container, .breaking-ticker-container {
-            border-radius: var(--border-radius);
-            padding: 18px;
-            margin-top: 20px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .news-ticker-container { background: linear-gradient(145deg, #1e2a47, #0f1a2f); }
-        .breaking-ticker-container { background: linear-gradient(145deg, #b71c1c, #8e0000); border-right: 6px solid var(--accent-gold); }
-        .news-ticker-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255,235,59,0.5);
-            flex-wrap: wrap;
-        }
-        .ticker-title { display: flex; align-items: center; gap: 12px; font-size: 1.25rem; font-weight: 700; color: var(--accent-gold); }
-        .ticker-title i { animation: pulse 2s infinite; }
-        .ticker-date { color: #bbdefb; font-size: 0.9rem; font-weight: 500; }
-        .news-ticker, .breaking-ticker { direction: ltr; overflow: hidden; white-space: nowrap; width: 100%; }
-        marquee { color: white; font-size: 1.1rem; padding: 10px 0; width: 100%; font-weight: 500; }
-        .breaking-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-        .breaking-icon {
-            background: white; color: var(--accent-red); width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; box-shadow: var(--shadow-sm);
-        }
-        .breaking-title { font-size: 1.3rem; font-weight: 800; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-  
 
-        /* ===== الأقسام الرئيسية ===== */
-        section {
-            background: var(--gray-card);
-            margin: 30px 0;
-            padding: 35px 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-            border-right: 6px solid var(--primary);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        html[dir="ltr"] section { border-right: none; border-left: 6px solid var(--primary); }
-        section:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
-        section h2 {
-            color: var(--primary-dark);
-            font-size: 1.9rem;
-            font-weight: 800;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 4px solid var(--accent-gold);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* ===== الخدمات والمصالح ===== */
-        .services, .departments, .news-container, .contact-info { display: grid; gap: 25px; margin-top: 15px; }
-        .service-card {
-            background: linear-gradient(145deg, #ffffff, #f5f9ff);
-            border-radius: var(--border-radius-sm);
-            padding: 25px;
-            transition: var(--transition);
-            border-right: 6px solid var(--primary-light);
-            box-shadow: var(--shadow-sm);
-        }
-        .service-card:hover { background: white; transform: translateY(-8px); box-shadow: var(--shadow-md); border-right-color: var(--accent-gold); }
-        .service-icon {
-            background: linear-gradient(145deg, var(--primary), var(--primary-light));
-            color: white; width: 70px; height: 70px; border-radius: 20px;
-            display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 20px; box-shadow: var(--shadow-sm);
-        }
-        .department-item {
-            background: #f8fafc; padding: 25px 15px; border-radius: var(--border-radius-sm);
-            text-align: center; transition: var(--transition); border-bottom: 4px solid var(--primary-light); box-shadow: var(--shadow-sm);
-        }
-        .department-item:hover { background: white; transform: translateY(-6px); border-bottom-color: var(--accent-gold); box-shadow: var(--shadow-md); }
-        .department-icon {
-            background: linear-gradient(145deg, var(--primary-dark), var(--primary));
-            color: white; width: 60px; height: 60px; border-radius: 18px;
-            display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 18px;
-        }
-
-     
         /* ===== بطاقات الأخبار الثابتة ===== */
         .news-card {
             border-radius: var(--border-radius-sm); overflow: hidden; box-shadow: var(--shadow-sm);
@@ -623,6 +621,7 @@
                     </marquee>
                 </div>
                 <div style="text-align: center; margin-top: 8px; font-size: 0.85rem; color: #bbdefb;" id="ticker-hint">
+                    <i class="fas fa-info-circle"></i> حرك المؤشر فوق الشريط لإيقافه مؤقتاً
                 </div>
             </div>
 
@@ -646,7 +645,9 @@
     <div class="container">
         <section id="news">
             <h2><i class="fas fa-newspaper"></i> <span id="news-section-title">آخر الأخبار</span></h2>
-            <div class="news-container" id="news-container"></div>
+            <div class="news-container" id="news-container">
+                <!-- يتم ملؤها بواسطة JavaScript -->
+            </div>
         </section>
     </div>
 
@@ -664,7 +665,7 @@
             <div class="departments" id="departments-container"></div>
         </section>
 
-        <!-- معرض الصور المتحرك (مُعاد تنسيقه) -->
+        <!-- معرض الصور المتحرك -->
         <section id="gallery">
             <h2><i class="fas fa-images"></i> <span id="gallery-title">معرض الصور</span></h2>
             <div class="gallery-ticker-container">
@@ -673,6 +674,7 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 8px; font-size: 0.85rem; color: #666;" id="gallery-hint">
+                <i class="fas fa-info-circle"></i> حرك المؤشر فوق الصور لإيقاف الحركة مؤقتاً
             </div>
         </section>
 
@@ -904,7 +906,7 @@
         </div>
     </div>
 
-    <!-- ===== لوحة التحكم المتكاملة (جميع التبويبات تعمل) ===== -->
+    <!-- ===== لوحة التحكم المتكاملة ===== -->
     <div id="admin-modal" class="modal">
         <div class="modal-content" style="max-width: 1100px;">
             <span class="close-modal" id="close-admin">&times;</span>
@@ -921,7 +923,7 @@
                 <button class="admin-tab-btn" data-tab="admin-download-tab"><i class="fas fa-download"></i> تحميل الملف</button>
             </div>
 
-            <!-- تبويب الأخبار (كامل) -->
+            <!-- تبويب الأخبار -->
             <div id="admin-news-tab" class="admin-tab-pane active">
                 <h3>شريط الأخبار العام</h3>
                 <div id="news-list"></div>
@@ -951,19 +953,19 @@
                 <button id="update-static-news" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث بطاقات الأخبار</button>
             </div>
 
-            <!-- تبويب المصالح (مكتمل) -->
+            <!-- تبويب المصالح -->
             <div id="admin-depts-tab" class="admin-tab-pane"></div>
-            <!-- تبويب معرض الصور (مكتمل) -->
+            <!-- تبويب معرض الصور -->
             <div id="admin-gallery-tab" class="admin-tab-pane"></div>
-            <!-- تبويب لجنة الخدمات (مكتمل) -->
+            <!-- تبويب لجنة الخدمات -->
             <div id="admin-social-tab" class="admin-tab-pane"></div>
-            <!-- تبويب المسابقات (مكتمل) -->
+            <!-- تبويب المسابقات -->
             <div id="admin-competitions-tab" class="admin-tab-pane"></div>
-            <!-- تبويب الخدمات (مكتمل) -->
+            <!-- تبويب الخدمات -->
             <div id="admin-services-tab" class="admin-tab-pane"></div>
-            <!-- تبويب معلومات الاتصال (مكتمل) -->
+            <!-- تبويب معلومات الاتصال -->
             <div id="admin-contact-tab" class="admin-tab-pane"></div>
-            <!-- تبويب جداول المناوبة (مكتمل) -->
+            <!-- تبويب جداول المناوبة -->
             <div id="admin-schedules-tab" class="admin-tab-pane">
                 <h3>إدارة جداول المناوبة</h3>
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
@@ -1134,11 +1136,13 @@
                 'working-hours-desc': 'نعمل على مدار الساعة طوال أيام الأسبوع لخدمتكم',
                 'hours-badge-text': 'مفتوح 24/24 - 7/7',
                 'ticker-title': 'آخر الأخبار والمستجدات',
+                'ticker-hint': 'حرك المؤشر فوق الشريط لإيقافه مؤقتاً',
                 'breaking-title': 'عاجل',
                 'news-section-title': 'آخر الأخبار',
                 'services-title': 'الخدمات المقدمة',
                 'departments-title': 'المصالح',
                 'gallery-title': 'معرض الصور',
+                'gallery-hint': 'حرك المؤشر فوق الصور لإيقاف الحركة مؤقتاً',
                 'contact-title': 'معلومات الاتصال',
                 'contact-hours-title': 'ساعات عمل المؤسسة',
                 'contact-hours-desc': 'المؤسسة تعمل على مدار الساعة طوال أيام الأسبوع لخدمتكم',
@@ -1181,10 +1185,151 @@
                 'link-presidency': 'رئاسة الجمهورية الجزائرية - المرادية',
                 'link-ministry': 'وزارة الصحة | الجمهورية الجزائرية الديمقراطية الشعبية'
             },
-            fr: { /* ... */ },
-            en: { /* ... */ }
+            fr: {
+                'header-institution-name': 'Établissement Public de Santé de Proximité',
+                'header-location': 'Commune de Brézina - Wilaya d\'El Bayadh - Algérie',
+                'header-phone': '049621456',
+                'header-email': 'cies4071@yahoo.fr',
+                'header-hours': '24/24 - 7/7',
+                'nav-home': 'Accueil',
+                'nav-services': 'Services',
+                'nav-departments': 'Départements',
+                'nav-gallery': 'Galerie',
+                'nav-news': 'Actualités',
+                'nav-competitions': 'Concours',
+                'nav-social': 'Comité Social',
+                'nav-schedules': 'Plannings',
+                'nav-tips': 'Conseils',
+                'nav-login': 'Connexion',
+                'nav-contact': 'Contact',
+                'hero-title': 'Établissement Public de Santé de Proximité - Brézina',
+                'hero-desc': 'Nous vous offrons les meilleurs services de santé et de soins avec les normes les plus élevées de qualité et de compétence médicale.',
+                'working-hours-title': 'Horaires',
+                'working-hours-desc': 'Ouvert 24h/24 et 7j/7',
+                'hours-badge-text': 'Ouvert 24/24 - 7/7',
+                'ticker-title': 'Dernières nouvelles',
+                'ticker-hint': 'Survolez la bande pour mettre en pause',
+                'breaking-title': 'Urgent',
+                'news-section-title': 'Actualités',
+                'services-title': 'Services',
+                'departments-title': 'Départements',
+                'gallery-title': 'Galerie',
+                'gallery-hint': 'Survolez les images pour mettre en pause',
+                'contact-title': 'Contact',
+                'contact-hours-title': 'Horaires',
+                'contact-hours-desc': 'Établissement ouvert 24h/24 et 7j/7',
+                'contact-all-depts': 'Tous services disponibles 24h/24',
+                'contact-emergency': 'Urgences 24h/24',
+                'contact-protection': 'Protection Civile: 14',
+                'contact-service-badge': 'Service continu 24/24 - 7/7',
+                'contact-address-title': 'Adresse',
+                'contact-channels-title': 'Contact',
+                'map-title': 'Localisation',
+                'map-address': 'Établissement Public de Santé de Proximité<br>Brézina, El Bayadh, Algérie',
+                'map-coords': 'Coordonnées: 33°05\'52.8"N 1°15\'39.6"E',
+                'competitions-modal-title': 'Concours',
+                'social-title': 'Comité Social',
+                'social-ann-title': 'Annonces',
+                'social-forms-title': 'Formulaires (PDF)',
+                'social-law-title': 'Statuts',
+                'social-law-desc': 'Comité Social de l\'EPSP - Brézina',
+                'social-law-link': 'Télécharger les statuts',
+                'social-law-info': 'Les statuts définissent les missions, le financement et les conditions d\'éligibilité.',
+                'ramadan-title': '🌙 Ramadan Moubarak 🌙',
+                'ramadan-close': 'Fermer',
+                'schedule-title': 'Plannings de garde - Mars 2026',
+                'login-title': 'Connexion',
+                'login-username-label': 'Nom d\'utilisateur',
+                'login-password-label': 'Mot de passe',
+                'login-submit-text': 'Se connecter',
+                'admin-title': 'Panneau d\'administration',
+                'footer-title': 'EPSP',
+                'footer-location': 'Brézina - El Bayadh - Algérie',
+                'footer-desc': 'Établissement de santé offrant des services médicaux intégrés.',
+                'footer-quick-links': 'Liens rapides',
+                'footer-link-home': 'Accueil',
+                'footer-link-services': 'Services',
+                'footer-link-depts': 'Départements',
+                'footer-link-contact': 'Contact',
+                'footer-follow': 'Suivez-nous',
+                'footer-copyright': 'Tous droits réservés &copy; 2026 - EPSP Brézina',
+                'footer-info': 'Site conçu à des fins d\'information',
+                'link-presidency': 'Présidence de la République - El Mouradia',
+                'link-ministry': 'Ministère de la Santé | République Algérienne'
+            },
+            en: {
+                'header-institution-name': 'Public Institution of Proximity Health',
+                'header-location': 'Municipality of Brézina - Wilaya of El Bayadh - Algeria',
+                'header-phone': '049621456',
+                'header-email': 'cies4071@yahoo.fr',
+                'header-hours': '24/24 - 7/7',
+                'nav-home': 'Home',
+                'nav-services': 'Services',
+                'nav-departments': 'Departments',
+                'nav-gallery': 'Gallery',
+                'nav-news': 'News',
+                'nav-competitions': 'Competitions',
+                'nav-social': 'Social Committee',
+                'nav-schedules': 'Schedules',
+                'nav-tips': 'Tips',
+                'nav-login': 'Login',
+                'nav-contact': 'Contact',
+                'hero-title': 'Public Institution of Proximity Health - Brézina',
+                'hero-desc': 'We offer you the best health and therapeutic services with the highest standards of quality and medical competence.',
+                'working-hours-title': 'Working Hours',
+                'working-hours-desc': 'Open 24 hours a day, 7 days a week',
+                'hours-badge-text': 'Open 24/24 - 7/7',
+                'ticker-title': 'Latest News',
+                'ticker-hint': 'Hover to pause',
+                'breaking-title': 'Breaking News',
+                'news-section-title': 'Latest News',
+                'services-title': 'Services',
+                'departments-title': 'Departments',
+                'gallery-title': 'Gallery',
+                'gallery-hint': 'Hover over images to pause',
+                'contact-title': 'Contact',
+                'contact-hours-title': 'Working Hours',
+                'contact-hours-desc': 'Open 24/7',
+                'contact-all-depts': 'All departments available 24/24',
+                'contact-emergency': 'Emergency 24/24',
+                'contact-protection': 'Civil Protection: 14',
+                'contact-service-badge': 'Continuous service 24/24 - 7/7',
+                'contact-address-title': 'Address',
+                'contact-channels-title': 'Contact',
+                'map-title': 'Location',
+                'map-address': 'Public Institution of Proximity Health<br>Brézina, El Bayadh, Algeria',
+                'map-coords': 'Coordinates: 33°05\'52.8"N 1°15\'39.6"E',
+                'competitions-modal-title': 'Competitions',
+                'social-title': 'Social Committee',
+                'social-ann-title': 'Announcements',
+                'social-forms-title': 'Forms (PDF)',
+                'social-law-title': 'Bylaws',
+                'social-law-desc': 'Social Committee of EPSP - Brézina',
+                'social-law-link': 'Download Bylaws',
+                'social-law-info': 'The bylaws define the committee\'s tasks, funding sources, and eligibility conditions.',
+                'ramadan-title': '🌙 Ramadan Mubarak 🌙',
+                'ramadan-close': 'Close',
+                'schedule-title': 'Night Shift Schedules - March 2026',
+                'login-title': 'Login',
+                'login-username-label': 'Username',
+                'login-password-label': 'Password',
+                'login-submit-text': 'Sign in',
+                'admin-title': 'Dashboard',
+                'footer-title': 'EPSP',
+                'footer-location': 'Brézina - El Bayadh - Algeria',
+                'footer-desc': 'A health institution providing integrated medical services.',
+                'footer-quick-links': 'Quick Links',
+                'footer-link-home': 'Home',
+                'footer-link-services': 'Services',
+                'footer-link-depts': 'Departments',
+                'footer-link-contact': 'Contact',
+                'footer-follow': 'Follow Us',
+                'footer-copyright': 'All rights reserved &copy; 2026 - EPSP Brézina',
+                'footer-info': 'This site is for informational purposes',
+                'link-presidency': 'Presidency of the Republic - El Mouradia',
+                'link-ministry': 'Ministry of Health | People\'s Democratic Republic of Algeria'
+            }
         };
-        // (الترجمات للفرنسية والإنجليزية محذوفة للاختصار لكنها موجودة في الكود الكامل)
 
         function applyLanguage(lang) {
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -1277,7 +1422,6 @@
             updateStaticNewsDOM();
         }
         function initSchedules() {
-            // الأطباء (بيانات حقيقية من ملف Excel)
             doctorsSchedule = [
                 { day: 'الأحد', date: '2026-03-01', doctor: 'د. قاوع. ك' },
                 { day: 'الاثنين', date: '2026-03-02', doctor: 'د. رفراف. ب' },
@@ -1311,7 +1455,6 @@
                 { day: 'الاثنين', date: '2026-03-30', doctor: 'د. محمد. ه' },
                 { day: 'الثلاثاء', date: '2026-03-31', doctor: 'د. سوامس. ز' }
             ];
-            // الشبه طبي (تناوب يومي)
             paramedicsSchedule = [];
             for (let i = 0; i < 31; i++) {
                 let date = new Date(2026, 2, 1 + i);
@@ -1319,7 +1462,6 @@
                 let team = (i % 2 === 0) ? 'قاسمي . بدر الدين + فاردي. و .' : 'نعيمة.م + قويدري. ف.';
                 paramedicsSchedule.push({ day, date: date.toISOString().split('T')[0], team });
             }
-            // الإدارة (دورة 4 أيام)
             let adminNames = ['تناح عبد القادر', 'بوعيشي سعيد', 'بن شيحة محمد', 'نعيمة محمد'];
             let adminRanks = ['ممرض شهادة دولة', 'مساعد تمريض رئيسي', 'ممرض شهادة دولة', 'عون تخذير'];
             adminSchedule = [];
@@ -1440,7 +1582,7 @@
             renderDoctorsTable(); renderParamedicsTable(); renderAdminTable(); renderDriversTable(); renderLabTable(); renderRadiologyTable();
         }
 
-        // ========== 6. دوال رسم لوحة التحكم (كل التبويبات) ==========
+        // ========== 6. دوال رسم لوحة التحكم ==========
         function renderNewsList() {
             let list = document.getElementById('news-list');
             if (!list) return;
@@ -1583,7 +1725,6 @@
             };
         }
 
-        // دوال إدارة جداول المناوبة في لوحة التحكم
         function renderAdminDoctorsList() {
             let list = document.getElementById('admin-doctors-list');
             if (!list) return;
@@ -1621,7 +1762,7 @@
             document.querySelectorAll('[data-radio-index]').forEach(btn=>btn.onclick=()=>{radiologySchedule.splice(parseInt(btn.dataset.radioIndex),1); renderAdminRadiologyList();});
         }
 
-        // ========== 7. تحميل نموذج Excel ورفع الملف ==========
+        // ========== 7. تحميل ورفع Excel ==========
         function downloadTemplate() {
             let wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['اليوم','التاريخ','الطبيب']]), 'الأطباء');
@@ -1657,9 +1798,8 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // ========== 8. أحداث لوحة التحكم (ربط الأزرار) ==========
+        // ========== 8. أحداث لوحة التحكم ==========
         function bindAdminEvents() {
-            // أزرار الأخبار
             document.getElementById('add-news-btn').onclick = () => {
                 let inp = document.getElementById('new-news-input');
                 if (inp.value.trim()) { newsItems.push(inp.value.trim()); inp.value = ''; renderNewsList(); }
@@ -1683,7 +1823,6 @@
             };
             document.getElementById('update-static-news').onclick = () => { updateStaticNewsDOM(); alert('تم تحديث بطاقات الأخبار'); };
 
-            // أزرار جداول المناوبة
             document.getElementById('add-doctor-btn').onclick = () => {
                 let day = document.getElementById('new-doctor-day').value.trim();
                 let date = document.getElementById('new-doctor-date').value.trim();
@@ -1763,7 +1902,7 @@
             if (e.target.classList.contains('modal')) e.target.style.display = 'none';
         };
 
-        // ========== 11. أحداث النوافذ المنبثقة (للمستخدم العادي) ==========
+        // ========== 11. أحداث النوافذ المنبثقة ==========
         document.getElementById('competitions-btn').onclick = (e) => { e.preventDefault(); document.getElementById('competitions-modal').style.display = 'block'; };
         document.getElementById('close-competitions').onclick = () => document.getElementById('competitions-modal').style.display = 'none';
         document.getElementById('social-services-btn').onclick = (e) => { e.preventDefault(); document.getElementById('social-services-modal').style.display = 'block'; };
@@ -1783,7 +1922,7 @@
             if (el) el.textContent = d.toLocaleDateString('ar-EG', {weekday:'long', year:'numeric', month:'long', day:'numeric', timeZone:'Africa/Algiers'});
         }
         setInterval(updateDate, 60000);
-        setInterval(updateCompetitionsDOM, 86400000); // كل 24 ساعة
+        setInterval(updateCompetitionsDOM, 86400000);
 
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -1796,11 +1935,10 @@
             });
         });
 
-        // ========== 13. تهيئة الصفحة عند التحميل ==========
+        // ========== 13. تهيئة الصفحة ==========
         window.onload = function() {
             updateDate();
             initNews(); initBreaking(); initDepartments(); initGallery(); initSocial(); initCompetitions(); initServices(); initStaticNews(); initSchedules();
-            // نظام التبويب في نافذة المناوبة
             let tabBtns = document.querySelectorAll('.schedule-tabs .tab-btn');
             let panes = document.querySelectorAll('.schedule-modal .tab-pane');
             tabBtns.forEach(btn => btn.onclick = function() {
@@ -1809,7 +1947,6 @@
                 this.classList.add('active');
                 document.getElementById(this.dataset.tab).classList.add('active');
             });
-            // نظام التبويب في لوحة التحكم
             let adminTabBtns = document.querySelectorAll('.admin-tab-btn');
             let adminPanes = document.querySelectorAll('.admin-tab-pane');
             adminTabBtns.forEach(btn => btn.onclick = function() {
@@ -1818,7 +1955,6 @@
                 this.classList.add('active');
                 document.getElementById(this.dataset.tab).classList.add('active');
             });
-            // اللغة الافتراضية
             document.querySelectorAll('.lang-btn').forEach(btn => btn.onclick = () => applyLanguage(btn.dataset.lang));
             applyLanguage('ar');
         };
