@@ -175,14 +175,25 @@
         }
 
         /* بسم الله */
-        .bismillah {
-            text-align: center;
-            font-size: 1.5rem;
-            color: #ffeb3b;
-            margin: 30px 0;
-            font-family: 'Traditional Arabic', 'Amiri', serif;
-            font-weight: bold;
-        }
+        <div class="bismillah-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/%D8%A7%D9%84%D8%A8%D8%B3%D9%85%D9%84%D8%A9.png" 
+         alt="بسم الله الرحمن الرحيم" 
+         style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+</div>
+        .bismillah-image {
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.bismillah-image img {
+    max-width: 100%;
+    height: auto;
+    width: auto; /* يحافظ على الأبعاد الأصلية */
+    max-height: 120px; /* يمكنك تعديل هذه القيمة */
+    object-fit: contain;
+    border-radius: 8px; /* اختياري: إضافة زوايا مدورة */
+}
 
         /* ساعات العمل */
         .working-hours {
