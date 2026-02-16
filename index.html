@@ -126,7 +126,7 @@
         }
         .lang-btn.active { background: var(--accent-gold); color: var(--primary-dark); }
 
-        /* ===== شريط التنقل ===== */
+        /* ===== شريط التنقل - تعديل لجعل العناوين في سطر واحد ===== */
         nav {
             background: rgba(13, 71, 161, 0.9);
             backdrop-filter: blur(12px);
@@ -139,25 +139,53 @@
         .nav-container {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
+            align-items: center;
+            flex-wrap: nowrap; /* منع الالتفاف */
+            overflow-x: auto; /* إضافة تمرير أفقي عند الحاجة */
+            white-space: nowrap; /* منع النص من الالتفاف */
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            padding: 0 10px;
+        }
+        .nav-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .nav-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
         }
         nav a {
             color: white;
             text-decoration: none;
-            padding: 14px 20px;
+            padding: 14px 12px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: var(--transition);
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 0.95rem;
             border-radius: 40px;
-            margin: 6px 4px;
+            margin: 6px 2px;
+            flex-shrink: 0; /* منع العناصر من الانكماش */
         }
         nav a:hover {
             background: rgba(255,255,255,0.15);
             color: var(--accent-gold-light);
             transform: translateY(-2px);
+        }
+        
+        /* زر تسجيل الدخول - أيقونة فقط ومنفصل */
+        .login-nav-item {
+            margin-right: auto; /* دفعه لليمين (في RTL) */
+            background: rgba(255,255,255,0.1);
+            border-radius: 40px;
+            padding: 0 5px;
+        }
+        .login-nav-item a {
+            font-size: 0; /* إخفاء النص */
+        }
+        .login-nav-item a i {
+            font-size: 1.2rem; /* إظهار الأيقونة بحجم مناسب */
         }
 
         /* ===== الهيرو ===== */
@@ -259,11 +287,14 @@
 
         /* ===== الخدمات والمصالح ===== */
         .services, .departments, .news-container, .contact-info { display: grid; gap: 25px; margin-top: 15px; }
+        .service-card, .department-item {
+            cursor: pointer;
+            transition: var(--transition);
+        }
         .service-card {
             background: linear-gradient(145deg, #ffffff, #f5f9ff);
             border-radius: var(--border-radius-sm);
             padding: 25px;
-            transition: var(--transition);
             border-right: 6px solid var(--primary-light);
             box-shadow: var(--shadow-sm);
         }
@@ -275,7 +306,7 @@
         }
         .department-item {
             background: #f8fafc; padding: 25px 15px; border-radius: var(--border-radius-sm);
-            text-align: center; transition: var(--transition); border-bottom: 4px solid var(--primary-light); box-shadow: var(--shadow-sm);
+            text-align: center; border-bottom: 4px solid var(--primary-light); box-shadow: var(--shadow-sm);
         }
         .department-item:hover { background: white; transform: translateY(-6px); border-bottom-color: var(--accent-gold); box-shadow: var(--shadow-md); }
         .department-icon {
@@ -284,49 +315,129 @@
             display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 18px;
         }
 
-        /* ===== معرض الصور الثابت (شبكي) ===== */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+        /* ===== معرض الصور - كاروسيل متطور ===== */
+        .gallery {
+            padding: 20px 0 40px;
+            background: linear-gradient(to bottom, #ffffff, #f4f7fb);
         }
-        .gallery-item {
+
+        .carousel-container {
             position: relative;
-            width: 100%;
-            height: 200px;
-            border-radius: 12px;
+            max-width: 1100px;
+            margin: 0 auto;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
+            border-radius: 25px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            direction: ltr;
         }
-        .gallery-item:hover {
-            transform: scale(1.03);
-            box-shadow: var(--shadow-md);
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(.77,0,.18,1);
         }
-        .gallery-item img {
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
             width: 100%;
-            height: 100%;
+            height: 550px;
             object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
         }
-        .gallery-caption {
+
+        .carousel-slide:hover img {
+            transform: scale(1.05);
+        }
+
+        .carousel-slide::after {
+            content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(10,66,117,0.9), transparent);
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.1));
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             color: white;
-            padding: 12px;
-            font-size: 0.9rem;
+            font-size: 1.6rem;
+            font-weight: 700;
+            padding: 12px 25px;
+            border-radius: 50px;
+            background: rgba(0,0,0,0.4);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+            z-index: 2;
+            white-space: nowrap;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev { right: 25px; }
+        .carousel-next { left: 25px; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .carousel-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #d0d0d0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+        }
+
+        .gallery-hint {
             text-align: center;
-            font-weight: 600;
-            backdrop-filter: blur(2px);
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #666;
         }
 
         /* ===== بطاقات الأخبار الثابتة ===== */
         .news-card {
             border-radius: var(--border-radius-sm); overflow: hidden; box-shadow: var(--shadow-sm);
             transition: var(--transition); background: white;
+            cursor: pointer;
         }
         .news-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); }
         .news-image { height: 200px; overflow: hidden; }
@@ -335,6 +446,22 @@
         .news-content { padding: 20px; }
         .news-date { color: var(--primary); font-size: 0.9rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
         .news-content h3 { color: var(--primary-dark); margin-bottom: 12px; font-size: 1.3rem; font-weight: 700; }
+        .read-more-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .read-more-btn:hover {
+            color: var(--accent-gold);
+            gap: 8px;
+        }
 
         /* ===== معلومات الاتصال ===== */
         .contact-card {
@@ -386,7 +513,7 @@
         }
         #floating-fb-button:hover { transform: scale(1.15) rotate(5deg); box-shadow: 0 20px 30px rgba(24,119,242,0.4); }
 
-        /* ===== النوافذ المنبثقة ===== */
+        /* ===== النوافذ المنبثقة العامة ===== */
         .modal {
             display: none;
             position: fixed;
@@ -429,6 +556,91 @@
         }
         html[dir="ltr"] .close-modal { left: auto; right: 20px; }
         .close-modal:hover { color: var(--accent-red); transform: scale(1.2) rotate(90deg); }
+
+        /* ===== نافذة المصالح المنبثقة ===== */
+        .services-modal .modal-content {
+            max-width: 1200px;
+            border-right: 8px solid var(--primary);
+        }
+        .services-modal h2 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid var(--accent-gold);
+        }
+        .services-category {
+            margin-bottom: 30px;
+        }
+        .services-category h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-right: 10px;
+            border-right: 4px solid var(--accent-gold);
+        }
+        .services-grid-modal {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .service-card-modal {
+            background: linear-gradient(145deg, #ffffff, #f5f9ff);
+            border-radius: 12px;
+            padding: 20px;
+            border-right: 4px solid var(--primary-light);
+            transition: var(--transition);
+        }
+        .service-card-modal:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-right-color: var(--accent-gold);
+        }
+        .service-card-modal i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .service-card-modal h4 {
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        .service-card-modal p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* ===== نافذة قراءة المزيد للأخبار ===== */
+        .news-modal .modal-content {
+            max-width: 800px;
+            border-right: 8px solid var(--accent-gold);
+        }
+        .news-modal-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .news-modal-date {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .news-modal-title {
+            color: var(--primary-dark);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .news-modal-content-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #444;
+        }
 
         /* ===== نافذة النصائح ===== */
         .tips-modal .modal-content { border-right: 8px solid #4caf50; max-width: 800px; background: linear-gradient(145deg, #fff9f0, #fff5e6); }
@@ -513,6 +725,11 @@
             .news-container { grid-template-columns: repeat(3, 1fr); }
             .footer-content { grid-template-columns: repeat(3, 1fr); }
         }
+        @media (max-width: 768px) {
+            .carousel-btn { width: 40px; height: 40px; font-size: 1.5rem; }
+            .carousel-caption { font-size: 1.2rem; padding: 8px 16px; white-space: normal; text-align: center; }
+            .carousel-slide img { height: 350px; }
+        }
     </style>
 </head>
 <body>
@@ -543,20 +760,24 @@
         </div>
     </header>
 
-    <!-- ===== شريط التنقل ===== -->
+    <!-- ===== شريط التنقل - معدل ===== -->
     <nav>
         <div class="container nav-container">
             <a href="#home"><i class="fas fa-home"></i> <span id="nav-home">الرئيسية</span></a>
-            <a href="#services"><i class="fas fa-hand-holding-medical"></i> <span id="nav-services">الخدمات</span></a>
-            <a href="#departments"><i class="fas fa-building"></i> <span id="nav-departments">المصالح</span></a>
+            <a href="#services" id="services-nav-link"><i class="fas fa-hand-holding-medical"></i> <span id="nav-services">الخدمات</span></a>
+            <a href="#departments" id="departments-nav-link"><i class="fas fa-building"></i> <span id="nav-departments">المصالح</span></a>
             <a href="#gallery"><i class="fas fa-images"></i> <span id="nav-gallery">معرض الصور</span></a>
             <a href="#news"><i class="fas fa-newspaper"></i> <span id="nav-news">الأخبار</span></a>
             <a href="#competitions" id="competitions-btn"><i class="fas fa-trophy"></i> <span id="nav-competitions">المسابقات</span></a>
             <a href="#social-services" id="social-services-btn"><i class="fas fa-hand-holding-heart"></i> <span id="nav-social">لجنة الخدمات</span></a>
             <a href="#schedules" id="schedules-btn"><i class="fas fa-calendar-alt"></i> <span id="nav-schedules">جداول المناوبة</span></a>
             <a href="#tips" id="tips-btn"><i class="fas fa-lightbulb"></i> <span id="nav-tips">نصائح</span></a>
-            <a href="#login" id="login-btn"><i class="fas fa-lock"></i> <span id="nav-login">تسجيل الدخول</span></a>
             <a href="#contact"><i class="fas fa-address-book"></i> <span id="nav-contact">الاتصال</span></a>
+            
+            <!-- زر تسجيل الدخول - أيقونة فقط ومنفصل -->
+            <div class="login-nav-item">
+                <a href="#login" id="login-btn" title="تسجيل الدخول"><i class="fas fa-lock"></i> <span id="nav-login" style="display: none;">تسجيل الدخول</span></a>
+            </div>
         </div>
     </nav>
 
@@ -628,24 +849,32 @@
 
     <!-- ===== المحتوى الرئيسي ===== -->
     <div class="container">
-        <!-- الخدمات -->
+        <!-- الخدمات (المصالح تفتح في نافذة منبثقة) -->
         <section id="services">
             <h2><i class="fas fa-hand-holding-medical"></i> <span id="services-title">الخدمات المقدمة</span></h2>
             <div class="services" id="services-container"></div>
         </section>
 
-        <!-- المصالح -->
+        <!-- المصالح (ستفتح في نافذة منبثقة عند النقر) -->
         <section id="departments">
             <h2><i class="fas fa-building"></i> <span id="departments-title">المصالح</span></h2>
             <div class="departments" id="departments-container"></div>
         </section>
 
-        <!-- معرض الصور الثابت (شبكي) -->
-        <section id="gallery">
+        <!-- معرض الصور - الكاروسيل الجديد -->
+        <section id="gallery" class="gallery">
             <h2><i class="fas fa-images"></i> <span id="gallery-title">معرض الصور</span></h2>
-            <div class="gallery-grid" id="gallery-grid"></div>
-            <div style="text-align: center; margin-top: 8px; font-size: 0.85rem; color: #666;" id="gallery-hint">
-                <i class="fas fa-info-circle"></i> مرر المؤشر فوق الصور لتكبيرها
+            
+            <div class="carousel-container" id="carousel">
+                <div class="carousel-track" id="carouselTrack"></div>
+
+                <button class="carousel-btn carousel-prev" id="carouselPrev">&#10095;</button>
+                <button class="carousel-btn carousel-next" id="carouselNext">&#10094;</button>
+            </div>
+
+            <div class="carousel-dots" id="carouselDots"></div>
+            <div class="gallery-hint">
+                <i class="fas fa-info-circle"></i> يمكنك التنقل بين الصور باستخدام الأزرار أو النقاط
             </div>
         </section>
 
@@ -718,6 +947,30 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <!-- ===== نافذة المصالح المنبثقة ===== -->
+    <div id="departments-modal" class="modal services-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-departments-modal">&times;</span>
+            <h2><i class="fas fa-building"></i> <span id="departments-modal-title">جميع مصالح المؤسسة</span></h2>
+            
+            <div class="services-category">
+                <h3>المصالح الطبية</h3>
+                <div class="services-grid-modal" id="modal-departments-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== نافذة قراءة المزيد للأخبار ===== -->
+    <div id="news-modal" class="modal news-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-news-modal">&times;</span>
+            <img class="news-modal-image" id="modal-news-image" src="" alt="">
+            <div class="news-modal-date" id="modal-news-date"><i class="far fa-calendar-alt"></i></div>
+            <h2 class="news-modal-title" id="modal-news-title"></h2>
+            <div class="news-modal-content-text" id="modal-news-content"></div>
+        </div>
     </div>
 
     <!-- ===== نافذة المسابقات ===== -->
@@ -894,7 +1147,7 @@
                 <button class="admin-tab-btn" data-tab="admin-download-tab"><i class="fas fa-download"></i> تحميل الملف</button>
             </div>
 
-            <!-- تبويب الأخبار -->
+            <!-- تبويب الأخبار (معدل لإضافة نص الخبر الكامل) -->
             <div id="admin-news-tab" class="admin-tab-pane active">
                 <h3>شريط الأخبار العام</h3>
                 <div id="news-list"></div>
@@ -912,13 +1165,14 @@
                 </div>
                 <button id="update-breaking-ticker" class="update-btn" style="background: var(--accent-red);"><i class="fas fa-sync-alt"></i> تحديث شريط العاجل</button>
 
-                <h3 style="margin-top:30px;">آخر الأخبار (البطاقات الثابتة)</h3>
+                <h3 style="margin-top:30px;">آخر الأخبار (البطاقات الثابتة مع إمكانية إضافة نص كامل)</h3>
                 <div id="static-news-list"></div>
                 <div class="add-section" style="flex-direction: column;">
                     <input type="text" id="new-static-img" placeholder="رابط الصورة">
                     <input type="text" id="new-static-date" placeholder="التاريخ (مثال: 10 فيفري 2026)">
                     <input type="text" id="new-static-title" placeholder="عنوان الخبر">
-                    <textarea id="new-static-desc" placeholder="وصف الخبر" rows="2"></textarea>
+                    <textarea id="new-static-summary" placeholder="ملخص الخبر (يظهر في البطاقة)" rows="2"></textarea>
+                    <textarea id="new-static-full-content" placeholder="نص الخبر الكامل (يظهر في النافذة المنبثقة)" rows="4"></textarea>
                     <button id="add-static-news-btn" class="add-btn"><i class="fas fa-plus"></i> إضافة</button>
                 </div>
                 <button id="update-static-news" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث بطاقات الأخبار</button>
@@ -1082,13 +1336,12 @@
         //                     جافا سكريبت كامل ومُصحح
         // -------------------------------------------------------------
 
-        // 1. الترجمة
+        // 1. الترجمة (مختصرة للعرض)
         const translations = {
-            ar: { /* ... (كما هو سابق) ... */ },
-            fr: { /* ... */ },
-            en: { /* ... */ }
+            ar: {},
+            fr: {},
+            en: {}
         };
-        // (تم تضمين الترجمات كاملة في الملف العملي، لكن اختصاراً للعرض نضع مكانها النقاط)
 
         function applyLanguage(lang) {
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -1174,40 +1427,83 @@
         }
         function initStaticNews() {
             staticNews = [
-                { img: 'https://scontent.floo1-2.fna.fbcdn.net/v/t39.30808-6/522716611_122173486142449358_7472302259190827812_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=MKEyGjvcUAoQ7kNvwFFFRxC&_nc_oc=AdlBAiXoO7dCfKzRcJ_XV4wUEjwhc3oWeBzUXSxrukiRZS9pjUHAaJ_ZiG5PNOpBsiI&_nc_zt=23&_nc_ht=scontent.floo1-2.fna&_nc_gid=nwY7tnPrmBd76Iwk8THKiA&oh=00_AfuIdPfcPbxNKHagE-ULihZXSETjyaEVuy3RUpxfBweukg&oe=6991464D', date: '10 فيفري 2026', title: 'حملة تلقيح واسعة ضد شلل الأطفال', desc: 'تنظم المؤسسة حملة تلقيح مجانية ضد الإنفلونزا الموسمية تستهدف كبار السن والأطفال والحوامل وذوي الأمراض المزمنة.' },
-                { img: 'https://istardentalsupply.com/cdn/shop/articles/Dental_Chair.jpg?v=1722408458', date: '10 فيفري 2026', title: 'تجهيز قسم طب الأسنان بأجهزة حديثة', desc: 'تم تجهيز قسم طب الأسنان بمعدات وأجهزة حديثة لتقديم خدمات علاجية متكاملة بجودة عالية.' },
-                { img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', date: '10 فيفري 2026', title: 'تدريب كوادر المؤسسة على بروتوكولات جديدة', desc: 'اختتمت دورة تدريبية متخصصة للكوادر الطبية والتمريضية على أحدث البروتوكولات العلاجية والتشخيصية.' }
+                { 
+                    img: 'https://scontent.floo1-2.fna.fbcdn.net/v/t39.30808-6/522716611_122173486142449358_7472302259190827812_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=MKEyGjvcUAoQ7kNvwFFFRxC&_nc_oc=AdlBAiXoO7dCfKzRcJ_XV4wUEjwhc3oWeBzUXSxrukiRZS9pjUHAaJ_ZiG5PNOpBsiI&_nc_zt=23&_nc_ht=scontent.floo1-2.fna&_nc_gid=nwY7tnPrmBd76Iwk8THKiA&oh=00_AfuIdPfcPbxNKHagE-ULihZXSETjyaEVuy3RUpxfBweukg&oe=6991464D', 
+                    date: '10 فيفري 2026', 
+                    title: 'حملة تلقيح واسعة ضد شلل الأطفال', 
+                    summary: 'تنظم المؤسسة حملة تلقيح مجانية ضد الإنفلونزا الموسمية تستهدف كبار السن والأطفال والحوامل وذوي الأمراض المزمنة.',
+                    fullContent: 'نظمت المؤسسة العمومية للصحة الجوارية ببريزينة حملة تلقيح واسعة النطاق استهدفت أكثر من 500 مواطن من مختلف الفئات العمرية. شملت الحملة توعية صحية حول أهمية التلقيح في الوقاية من الأمراض الموسمية، مع تقديم اللقاحات اللازمة مجاناً. وأشرف على الحملة فريق طبي متخصص، مع توفير جميع الإجراءات الوقائية لضمان سلامة المستفيدين.'
+                },
+                { 
+                    img: 'https://istardentalsupply.com/cdn/shop/articles/Dental_Chair.jpg?v=1722408458', 
+                    date: '10 فيفري 2026', 
+                    title: 'تجهيز قسم طب الأسنان بأجهزة حديثة', 
+                    summary: 'تم تجهيز قسم طب الأسنان بمعدات وأجهزة حديثة لتقديم خدمات علاجية متكاملة بجودة عالية.',
+                    fullContent: 'في إطار تحديث الخدمات الصحية، استقبل قسم طب الأسنان بالمؤسسة أجهزة طبية متطورة تشمل وحدات أسنان رقمية، وأجهزة أشعة بانورامية ثلاثية الأبعاد. تساهم هذه التجهيزات في تحسين دقة التشخيص وجودة العلاج، وتقليل وقت الانتظار للمرضى. وسيتم تنظيم أيام تطبيقية لتعريف الطاقم الطبي بالتقنيات الجديدة.'
+                },
+                { 
+                    img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', 
+                    date: '10 فيفري 2026', 
+                    title: 'تدريب كوادر المؤسسة على بروتوكولات جديدة', 
+                    summary: 'اختتمت دورة تدريبية متخصصة للكوادر الطبية والتمريضية على أحدث البروتوكولات العلاجية والتشخيصية.',
+                    fullContent: 'نظمت المؤسسة بالتعاون مع خبراء من وزارة الصحة دورة تدريبية مكثفة حول البروتوكولات العلاجية الجديدة في مجال الطوارئ والعناية المركزة. استفاد من الدورة 40 من الكوادر الطبية وشبه الطبية، وتضمنت ورش عمل تطبيقية ومحاضرات نظرية حول التعامل مع الحالات الحرجة وإدارة الألم وتقنيات الإنعاش المتقدمة.'
+                }
             ];
             updateStaticNewsDOM();
         }
         function initSchedules() {
-            // الأطباء
             doctorsSchedule = [
                 { day: 'الأحد', date: '2026-03-01', doctor: 'د. قاوع. ك' },
                 { day: 'الاثنين', date: '2026-03-02', doctor: 'د. رفراف. ب' },
-                // ... (باقي الأيام)
+                { day: 'الثلاثاء', date: '2026-03-03', doctor: 'د. خليفي. ع' },
+                { day: 'الأربعاء', date: '2026-03-04', doctor: 'د. بن زيد. م' },
+                { day: 'الخميس', date: '2026-03-05', doctor: 'د. مرزوق. ف' },
+                { day: 'الجمعة', date: '2026-03-06', doctor: 'د. قاوع. ك' },
+                { day: 'السبت', date: '2026-03-07', doctor: 'د. رفراف. ب' }
             ];
-            // الشبه طبي
             paramedicsSchedule = [];
-            for (let i = 0; i < 31; i++) {
-                let date = new Date(2026, 2, 1 + i);
+            for (let i = 1; i <= 7; i++) {
+                let date = new Date(2026, 2, i);
                 let day = date.toLocaleDateString('ar-EG', { weekday: 'long' });
-                let team = (i % 2 === 0) ? 'قاسمي . بدر الدين + فاردي. و .' : 'نعيمة.م + قويدري. ف.';
+                let team = (i % 2 === 0) ? 'قاسمي. ب + فاردي. و' : 'نعيمة.م + قويدري. ف';
                 paramedicsSchedule.push({ day, date: date.toISOString().split('T')[0], team });
             }
-            // الإدارة
             let adminNames = ['تناح عبد القادر', 'بوعيشي سعيد', 'بن شيحة محمد', 'نعيمة محمد'];
-            let adminRanks = ['ممرض شهادة دولة', 'مساعد تمريض رئيسي', 'ممرض شهادة دولة', 'عون تخذير'];
+            let adminRanks = ['ممرض شهادة دولة', 'مساعد تمريض رئيسي', 'ممرض شهادة دولة', 'عون تخدير'];
             adminSchedule = [];
-            for (let i = 0; i < 31; i++) {
-                let date = new Date(2026, 2, 1 + i);
+            for (let i = 1; i <= 7; i++) {
+                let date = new Date(2026, 2, i);
                 let day = date.toLocaleDateString('ar-EG', { weekday: 'long' });
-                let idx = i % 4;
+                let idx = (i-1) % 4;
                 adminSchedule.push({ day, date: date.toISOString().split('T')[0], name: adminNames[idx], rank: adminRanks[idx] });
             }
-            driversSchedule = [];
-            labSchedule = [];
-            radiologySchedule = [];
+            driversSchedule = [
+                { day: 'الأحد', date: '2026-03-01', name: 'بن يوسف. ع' },
+                { day: 'الاثنين', date: '2026-03-02', name: 'زواني. م' },
+                { day: 'الثلاثاء', date: '2026-03-03', name: 'سعيدي. ع' },
+                { day: 'الأربعاء', date: '2026-03-04', name: 'بن يوسف. ع' },
+                { day: 'الخميس', date: '2026-03-05', name: 'زواني. م' },
+                { day: 'الجمعة', date: '2026-03-06', name: 'سعيدي. ع' },
+                { day: 'السبت', date: '2026-03-07', name: 'بن يوسف. ع' }
+            ];
+            labSchedule = [
+                { day: 'الأحد', date: '2026-03-01', name: 'مختار. ن' },
+                { day: 'الاثنين', date: '2026-03-02', name: 'حمزة. ر' },
+                { day: 'الثلاثاء', date: '2026-03-03', name: 'شعبان. م' },
+                { day: 'الأربعاء', date: '2026-03-04', name: 'مختار. ن' },
+                { day: 'الخميس', date: '2026-03-05', name: 'حمزة. ر' },
+                { day: 'الجمعة', date: '2026-03-06', name: 'شعبان. م' },
+                { day: 'السبت', date: '2026-03-07', name: 'مختار. ن' }
+            ];
+            radiologySchedule = [
+                { day: 'الأحد', date: '2026-03-01', name: 'د. عبدلي. ك' },
+                { day: 'الاثنين', date: '2026-03-02', name: 'د. معمري. ح' },
+                { day: 'الثلاثاء', date: '2026-03-03', name: 'د. عبدلي. ك' },
+                { day: 'الأربعاء', date: '2026-03-04', name: 'د. معمري. ح' },
+                { day: 'الخميس', date: '2026-03-05', name: 'د. عبدلي. ك' },
+                { day: 'الجمعة', date: '2026-03-06', name: 'د. معمري. ح' },
+                { day: 'السبت', date: '2026-03-07', name: 'د. عبدلي. ك' }
+            ];
             renderAllScheduleTables();
         }
 
@@ -1222,18 +1518,63 @@
         }
         function updateDepartmentsDOM() {
             let c = document.getElementById('departments-container');
-            if (c) c.innerHTML = departments.map(d => `<div class="department-item"><div class="department-icon"><i class="fas ${d.icon}"></i></div><h4>${d.title}</h4><p>${d.desc}</p></div>`).join('');
+            if (c) {
+                c.innerHTML = departments.map((d, index) => `<div class="department-item" data-dept-index="${index}"><div class="department-icon"><i class="fas ${d.icon}"></i></div><h4>${d.title}</h4><p>${d.desc}</p></div>`).join('');
+                
+                // إضافة حدث النقر لكل عنصر مصلحة لفتح النافذة المنبثقة
+                document.querySelectorAll('.department-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        openDepartmentsModal();
+                    });
+                });
+            }
         }
-        function updateGalleryDOM() {
-            let grid = document.getElementById('gallery-grid');
-            if (grid) {
-                grid.innerHTML = galleryItems.map(g => `
-                    <div class="gallery-item">
-                        <img src="${g.img}" alt="${g.caption}">
-                        <div class="gallery-caption">${g.caption}</div>
+        
+        // فتح نافذة المصالح المنبثقة
+        function openDepartmentsModal() {
+            const modalList = document.getElementById('modal-departments-list');
+            if (modalList) {
+                modalList.innerHTML = departments.map(d => `
+                    <div class="service-card-modal">
+                        <i class="fas ${d.icon}"></i>
+                        <h4>${d.title}</h4>
+                        <p>${d.desc}</p>
                     </div>
                 `).join('');
             }
+            document.getElementById('departments-modal').style.display = 'block';
+        }
+        
+        function updateGalleryDOM() {
+            let track = document.getElementById('carouselTrack');
+            let dotsContainer = document.getElementById('carouselDots');
+            if (!track || galleryItems.length === 0) return;
+
+            // Clone last + first
+            let slidesHTML = [
+                galleryItems[galleryItems.length - 1],
+                ...galleryItems,
+                galleryItems[0]
+            ];
+
+            track.innerHTML = slidesHTML.map(item => `
+                <div class="carousel-slide">
+                    <img src="${item.img}" alt="${item.caption}">
+                    <div class="carousel-caption">${item.caption}</div>
+                </div>
+            `).join('');
+
+            dotsContainer.innerHTML = galleryItems.map((_, i) => `
+                <span class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>
+            `).join('');
+
+            track.style.transition = "none";
+            track.style.transform = `translateX(-100%)`;
+            currentIndex = 1;
+
+            setTimeout(() => {
+                track.style.transition = "transform 0.6s cubic-bezier(.77,0,.18,1)";
+            }, 50);
         }
         function updateSocialDOM() {
             let l = document.getElementById('social-announcements-list');
@@ -1255,7 +1596,50 @@
         }
         function updateStaticNewsDOM() {
             let c = document.getElementById('news-container');
-            if (c) c.innerHTML = staticNews.map(n => `<div class="news-card"><div class="news-image"><img src="${n.img}" alt="${n.title}"></div><div class="news-content"><div class="news-date"><i class="far fa-calendar-alt"></i> ${n.date}</div><h3>${n.title}</h3><p>${n.desc}</p></div></div>`).join('');
+            if (c) {
+                c.innerHTML = staticNews.map((n, index) => `
+                    <div class="news-card" data-news-index="${index}">
+                        <div class="news-image"><img src="${n.img}" alt="${n.title}"></div>
+                        <div class="news-content">
+                            <div class="news-date"><i class="far fa-calendar-alt"></i> ${n.date}</div>
+                            <h3>${n.title}</h3>
+                            <p>${n.summary}</p>
+                            <button class="read-more-btn" data-news-index="${index}">قراءة المزيد <i class="fas fa-arrow-left"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // إضافة حدث النقر لزر قراءة المزيد
+                document.querySelectorAll('.read-more-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const index = this.dataset.newsIndex;
+                        if (index !== undefined) openNewsModal(parseInt(index));
+                    });
+                });
+                
+                // إضافة حدث النقر على البطاقة كاملة لفتح النافذة
+                document.querySelectorAll('.news-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const index = this.dataset.newsIndex;
+                        if (index !== undefined) openNewsModal(parseInt(index));
+                    });
+                });
+            }
+        }
+        
+        // فتح نافذة الخبر المنبثقة
+        function openNewsModal(index) {
+            const news = staticNews[index];
+            if (!news) return;
+            
+            document.getElementById('modal-news-image').src = news.img;
+            document.getElementById('modal-news-date').innerHTML = `<i class="far fa-calendar-alt"></i> ${news.date}`;
+            document.getElementById('modal-news-title').textContent = news.title;
+            document.getElementById('modal-news-content').innerHTML = news.fullContent.replace(/\n/g, '<br>');
+            
+            document.getElementById('news-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
         // ========== 5. جداول المناوبة (العرض) ==========
@@ -1323,7 +1707,75 @@
             renderDoctorsTable(); renderParamedicsTable(); renderAdminTable(); renderDriversTable(); renderLabTable(); renderRadiologyTable();
         }
 
-        // ========== 6. دوال رسم لوحة التحكم ==========
+        // ========== 6. كاروسيل الصور ==========
+        let currentIndex = 1;
+        let isAnimating = false;
+        let autoPlayInterval;
+
+        function startAutoPlay() {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = setInterval(() => {
+                nextSlide(false);
+            }, 3000);
+        }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            if (!track) return;
+            isAnimating = true;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach(dot => dot.classList.remove('active'));
+            let realIndex = currentIndex - 1;
+            if (realIndex < 0) realIndex = galleryItems.length - 1;
+            if (realIndex >= galleryItems.length) realIndex = 0;
+            if (dots[realIndex]) dots[realIndex].classList.add('active');
+        }
+
+        function nextSlide(manual = false) {
+            if (isAnimating) return;
+            if (manual) resetAutoPlay();
+            currentIndex++;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            if (isAnimating) return;
+            resetAutoPlay();
+            currentIndex--;
+            updateCarousel();
+        }
+
+        function handleInfinite() {
+            const track = document.getElementById('carouselTrack');
+            if (!track) return;
+            const slidesCount = galleryItems.length;
+
+            if (currentIndex === slidesCount + 1) {
+                track.style.transition = "none";
+                currentIndex = 1;
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            if (currentIndex === 0) {
+                track.style.transition = "none";
+                currentIndex = slidesCount;
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            setTimeout(() => {
+                track.style.transition = "transform 0.6s cubic-bezier(.77,0,.18,1)";
+                isAnimating = false;
+            }, 20);
+        }
+
+        // ========== 7. دوال رسم لوحة التحكم ==========
         function renderNewsList() {
             let list = document.getElementById('news-list');
             if (!list) return;
@@ -1342,29 +1794,36 @@
             list.innerHTML = staticNews.map((n,i)=>`
                 <div class="admin-list-item" style="flex-direction:column; align-items:flex-start;">
                     <div style="display:flex; width:100%; justify-content:space-between;">
-                        <div><img src="${n.img}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;"> <strong>${n.title}</strong><br><small>${n.date}</small><br><small>${n.desc.substring(0,50)}...</small></div>
+                        <div>
+                            <img src="${n.img}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;"> 
+                            <strong>${n.title}</strong><br>
+                            <small>${n.date}</small><br>
+                            <small>الملخص: ${n.summary.substring(0,50)}...</small><br>
+                            <small>النص الكامل: ${n.fullContent.substring(0,50)}...</small>
+                        </div>
                         <button class="delete-btn" data-static-index="${i}"><i class="fas fa-trash"></i> حذف</button>
                     </div>
                 </div>`).join('');
             document.querySelectorAll('[data-static-index]').forEach(btn=>btn.onclick=()=>{staticNews.splice(parseInt(btn.dataset.staticIndex),1); renderStaticNewsList();});
         }
 
-        function renderDeptsTab() {
+        function renderDeptsTab() { 
             let tab = document.getElementById('admin-depts-tab');
-            let iconOptions = ['fa-stethoscope','fa-vial','fa-x-ray','fa-pills','fa-notes-medical','fa-female','fa-teeth','fa-user-injured'];
+            if (!tab) return;
             tab.innerHTML = `<h3>إدارة المصالح</h3><div id="depts-list"></div>
-                <div class="add-section"><select id="new-dept-icon">${iconOptions.map(ico=>`<option value="${ico}">${ico}</option>`).join('')}</select>
-                <input type="text" id="new-dept-title" placeholder="اسم المصلحة"><input type="text" id="new-dept-desc" placeholder="وصف المصلحة">
-                <button id="add-dept-btn" class="add-btn"><i class="fas fa-plus"></i> إضافة</button></div>
+                <div class="add-section"><input type="text" id="new-dept-icon" placeholder="أيقونة (مثال: fa-stethoscope)"><input type="text" id="new-dept-title" placeholder="اسم المصلحة"><input type="text" id="new-dept-desc" placeholder="وصف المصلحة"><button id="add-dept-btn" class="add-btn"><i class="fas fa-plus"></i> إضافة</button></div>
                 <button id="update-depts" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث المصالح</button>`;
             let list = document.getElementById('depts-list');
             list.innerHTML = departments.map((d,i)=>`<div class="admin-list-item"><div><i class="fas ${d.icon}"></i> <strong>${d.title}</strong><br><small>${d.desc}</small></div><button class="delete-btn" data-dept-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`).join('');
             document.querySelectorAll('[data-dept-index]').forEach(btn=>btn.onclick=()=>{departments.splice(parseInt(btn.dataset.deptIndex),1); renderDeptsTab();});
             document.getElementById('add-dept-btn').onclick = () => {
-                let icon = document.getElementById('new-dept-icon').value;
+                let icon = document.getElementById('new-dept-icon').value.trim();
                 let title = document.getElementById('new-dept-title').value.trim();
                 let desc = document.getElementById('new-dept-desc').value.trim();
-                if (title && desc) { departments.push({icon,title,desc}); renderDeptsTab(); }
+                if (icon && title && desc) { 
+                    departments.push({icon,title,desc}); 
+                    renderDeptsTab(); 
+                }
             };
             document.getElementById('update-depts').onclick = () => { updateDepartmentsDOM(); alert('تم تحديث المصالح'); };
         }
@@ -1373,7 +1832,7 @@
             let tab = document.getElementById('admin-gallery-tab');
             if (!tab) return;
             tab.innerHTML = `
-                <h3>إدارة معرض الصور (عرض شبكي ثابت)</h3>
+                <h3>إدارة معرض الصور</h3>
                 <div id="gallery-list"></div>
                 <div class="add-section">
                     <input type="text" id="new-gallery-img" placeholder="رابط الصورة">
@@ -1419,6 +1878,7 @@
 
         function renderSocialTab() {
             let tab = document.getElementById('admin-social-tab');
+            if (!tab) return;
             tab.innerHTML = `<h3>إدارة إعلانات لجنة الخدمات</h3><div id="social-list"></div>
                 <div class="add-section"><input type="text" id="new-social" placeholder="نص الإعلان"><button id="add-social-btn" class="add-btn"><i class="fas fa-plus"></i> إضافة</button></div>
                 <button id="update-social" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث الإعلانات</button>`;
@@ -1434,6 +1894,7 @@
 
         function renderCompetitionsTab() {
             let tab = document.getElementById('admin-competitions-tab');
+            if (!tab) return;
             tab.innerHTML = `<h3>إدارة المسابقات</h3><div id="competitions-list"></div>
                 <div class="add-section" style="flex-direction:column;"><input type="text" id="new-competition-title" placeholder="عنوان المسابقة"><input type="date" id="new-competition-date"><textarea id="new-competition-desc" placeholder="وصف المسابقة" rows="2"></textarea><button id="add-competition-btn" class="add-btn"><i class="fas fa-plus"></i> إضافة</button></div>
                 <button id="update-competitions" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث المسابقات</button>`;
@@ -1454,26 +1915,25 @@
 
         function renderServicesTab() {
             let tab = document.getElementById('admin-services-tab');
-            let iconOptions = ['fa-user-md','fa-baby','fa-syringe','fa-heartbeat','fa-pills','fa-ambulance'];
+            if (!tab) return;
             tab.innerHTML = `<h3>إدارة الخدمات</h3><div id="services-list"></div>
-                <div class="add-section" style="flex-direction:column;"><select id="new-service-icon">${iconOptions.map(ico=>`<option value="${ico}">${ico}</option>`).join('')}</select>
-                <input type="text" id="new-service-title" placeholder="عنوان الخدمة"><textarea id="new-service-desc" placeholder="وصف الخدمة" rows="2"></textarea>
-                <button id="add-service-btn" class="add-btn"><i class="fas fa-plus"></i> إضافة</button></div>
+                <div class="add-section" style="flex-direction:column;"><input type="text" id="new-service-icon" placeholder="أيقونة (مثال: fa-user-md)"><input type="text" id="new-service-title" placeholder="عنوان الخدمة"><textarea id="new-service-desc" placeholder="وصف الخدمة" rows="2"></textarea><button id="add-service-btn" class="add-btn"><i class="fas fa-plus"></i> إضافة</button></div>
                 <button id="update-services" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث الخدمات</button>`;
             let list = document.getElementById('services-list');
             list.innerHTML = services.map((s,i)=>`<div class="admin-list-item"><div><i class="fas ${s.icon}"></i> <strong>${s.title}</strong><br><small>${s.desc}</small></div><button class="delete-btn" data-service-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`).join('');
             document.querySelectorAll('[data-service-index]').forEach(btn=>btn.onclick=()=>{services.splice(parseInt(btn.dataset.serviceIndex),1); renderServicesTab();});
             document.getElementById('add-service-btn').onclick = () => {
-                let icon = document.getElementById('new-service-icon').value;
+                let icon = document.getElementById('new-service-icon').value.trim();
                 let title = document.getElementById('new-service-title').value.trim();
                 let desc = document.getElementById('new-service-desc').value.trim();
-                if (title && desc) { services.push({icon,title,desc}); renderServicesTab(); }
+                if (icon && title && desc) { services.push({icon,title,desc}); renderServicesTab(); }
             };
             document.getElementById('update-services').onclick = () => { updateServicesDOM(); alert('تم تحديث الخدمات'); };
         }
 
         function renderContactTab() {
             let tab = document.getElementById('admin-contact-tab');
+            if (!tab) return;
             let phone = document.getElementById('header-phone')?.innerText || '049621456';
             let email = document.getElementById('header-email')?.innerText || 'cies4071@yahoo.fr';
             let address = document.getElementById('contact-address-text')?.innerHTML.replace(/<br>/g,'\n').replace(/<[^>]*>/g,'') || '';
@@ -1534,7 +1994,7 @@
             document.querySelectorAll('[data-radio-index]').forEach(btn=>btn.onclick=()=>{radiologySchedule.splice(parseInt(btn.dataset.radioIndex),1); renderAdminRadiologyList();});
         }
 
-        // ========== 7. تحميل ورفع Excel ==========
+        // ========== 8. تحميل ورفع Excel ==========
         function downloadTemplate() {
             let wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['اليوم','التاريخ','الطبيب']]), 'الأطباء');
@@ -1570,7 +2030,7 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // ========== 8. أحداث لوحة التحكم ==========
+        // ========== 9. أحداث لوحة التحكم ==========
         function bindAdminEvents() {
             document.getElementById('add-news-btn').onclick = () => {
                 let inp = document.getElementById('new-news-input');
@@ -1586,10 +2046,15 @@
                 let img = document.getElementById('new-static-img').value.trim();
                 let date = document.getElementById('new-static-date').value.trim();
                 let title = document.getElementById('new-static-title').value.trim();
-                let desc = document.getElementById('new-static-desc').value.trim();
-                if (img && date && title && desc) {
-                    staticNews.push({img,date,title,desc});
-                    document.getElementById('new-static-img').value=''; document.getElementById('new-static-date').value=''; document.getElementById('new-static-title').value=''; document.getElementById('new-static-desc').value='';
+                let summary = document.getElementById('new-static-summary').value.trim();
+                let fullContent = document.getElementById('new-static-full-content').value.trim();
+                if (img && date && title && summary && fullContent) {
+                    staticNews.push({img, date, title, summary, fullContent});
+                    document.getElementById('new-static-img').value=''; 
+                    document.getElementById('new-static-date').value=''; 
+                    document.getElementById('new-static-title').value=''; 
+                    document.getElementById('new-static-summary').value='';
+                    document.getElementById('new-static-full-content').value='';
                     renderStaticNewsList();
                 } else alert('الرجاء ملء جميع الحقول');
             };
@@ -1645,7 +2110,7 @@
             };
         }
 
-        // ========== 9. نظام تسجيل الدخول ==========
+        // ========== 10. نظام تسجيل الدخول ==========
         let loginBtn = document.getElementById('login-btn');
         let loginModal = document.getElementById('login-modal');
         let closeLogin = document.getElementById('close-login');
@@ -1661,7 +2126,8 @@
             if (username.value.trim() === 'Mekh' && password.value.trim() === '3205') {
                 loginModal.style.display = 'none';
                 initNews(); initBreaking(); initDepartments(); initGallery(); initSocial(); initCompetitions(); initServices(); initStaticNews(); initSchedules();
-                renderNewsList(); renderBreakingList(); renderStaticNewsList(); renderDeptsTab(); renderGalleryTab(); renderSocialTab(); renderCompetitionsTab(); renderServicesTab(); renderContactTab();
+                renderNewsList(); renderBreakingList(); renderStaticNewsList(); 
+                renderDeptsTab(); renderGalleryTab(); renderSocialTab(); renderCompetitionsTab(); renderServicesTab(); renderContactTab();
                 renderAdminDoctorsList(); renderAdminParamedicsList(); renderAdminAdminList(); renderAdminDriversList(); renderAdminLabList(); renderAdminRadiologyList();
                 bindAdminEvents();
                 adminModal.style.display = 'block';
@@ -1669,12 +2135,12 @@
         };
         document.getElementById('close-admin').onclick = () => adminModal.style.display = 'none';
 
-        // ========== 10. إغلاق النوافذ عند النقر خارج المحتوى ==========
+        // ========== 11. إغلاق النوافذ عند النقر خارج المحتوى ==========
         window.onclick = (e) => {
             if (e.target.classList.contains('modal')) e.target.style.display = 'none';
         };
 
-        // ========== 11. أحداث النوافذ المنبثقة ==========
+        // ========== 12. أحداث النوافذ المنبثقة ==========
         document.getElementById('competitions-btn').onclick = (e) => { e.preventDefault(); document.getElementById('competitions-modal').style.display = 'block'; };
         document.getElementById('close-competitions').onclick = () => document.getElementById('competitions-modal').style.display = 'none';
         document.getElementById('social-services-btn').onclick = (e) => { e.preventDefault(); document.getElementById('social-services-modal').style.display = 'block'; };
@@ -1685,9 +2151,21 @@
         document.getElementById('close-tips').onclick = () => document.getElementById('tips-modal').style.display = 'none';
         document.getElementById('ramadan-close-btn').onclick = () => document.getElementById('ramadan-modal').style.display = 'none';
         document.getElementById('close-ramadan').onclick = () => document.getElementById('ramadan-modal').style.display = 'none';
+        
+        // إغلاق نافذة المصالح
+        document.getElementById('close-departments-modal').onclick = () => {
+            document.getElementById('departments-modal').style.display = 'none';
+        };
+        
+        // إغلاق نافذة الأخبار
+        document.getElementById('close-news-modal').onclick = () => {
+            document.getElementById('news-modal').style.display = 'none';
+            document.body.style.overflow = '';
+        };
+        
         setTimeout(() => { document.getElementById('ramadan-modal').style.display = 'block'; }, 500);
 
-        // ========== 12. تحديث التاريخ والتمرير السلس ==========
+        // ========== 13. تحديث التاريخ والتمرير السلس ==========
         function updateDate() {
             let d = new Date();
             let el = document.getElementById('current-date');
@@ -1699,18 +2177,39 @@
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', (e) => {
                 let href = link.getAttribute('href');
-                if (href.startsWith('#')) {
+                if (href && href.startsWith('#')) {
                     e.preventDefault();
-                    let target = document.getElementById(href.substring(1));
+                    let targetId = href.substring(1);
+                    if (targetId === 'login') return; // زر تسجيل الدخول لا يقوم بالتمرير
+                    let target = document.getElementById(targetId);
                     if (target) window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
                 }
             });
         });
 
-        // ========== 13. تهيئة الصفحة ==========
+        // ========== 14. تهيئة الصفحة ==========
         window.onload = function() {
             updateDate();
             initNews(); initBreaking(); initDepartments(); initGallery(); initSocial(); initCompetitions(); initServices(); initStaticNews(); initSchedules();
+            
+            // ربط أحداث الكاروسيل
+            let track = document.getElementById('carouselTrack');
+            if (track) {
+                track.addEventListener('transitionend', handleInfinite);
+                document.getElementById('carouselPrev').onclick = () => prevSlide();
+                document.getElementById('carouselNext').onclick = () => nextSlide(true);
+                document.querySelectorAll('.carousel-dot').forEach(dot => {
+                    dot.onclick = (e) => {
+                        if (isAnimating) return;
+                        currentIndex = parseInt(e.target.dataset.index) + 1;
+                        updateCarousel();
+                        resetAutoPlay();
+                    };
+                });
+                startAutoPlay();
+            }
+
+            // ربط تبويبات الجداول
             let tabBtns = document.querySelectorAll('.schedule-tabs .tab-btn');
             let panes = document.querySelectorAll('.schedule-modal .tab-pane');
             tabBtns.forEach(btn => btn.onclick = function() {
@@ -1719,6 +2218,8 @@
                 this.classList.add('active');
                 document.getElementById(this.dataset.tab).classList.add('active');
             });
+
+            // ربط تبويبات لوحة التحكم
             let adminTabBtns = document.querySelectorAll('.admin-tab-btn');
             let adminPanes = document.querySelectorAll('.admin-tab-pane');
             adminTabBtns.forEach(btn => btn.onclick = function() {
@@ -1727,6 +2228,7 @@
                 this.classList.add('active');
                 document.getElementById(this.dataset.tab).classList.add('active');
             });
+
             document.querySelectorAll('.lang-btn').forEach(btn => btn.onclick = () => applyLanguage(btn.dataset.lang));
             applyLanguage('ar');
         };
